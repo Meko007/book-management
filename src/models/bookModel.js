@@ -1,7 +1,5 @@
 import mongoose from 'mongoose';
-// import nanoid from 'nanoid';
 
-// const _id = nanoid(10);
 const bookSchema = new mongoose.Schema(
     {
         title: {

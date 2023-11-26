@@ -1,5 +1,4 @@
 import bookModel from '../models/bookModel.js';
-// import { nanoid } from 'nanoid';
 //@desc Get all books 
 //@route GET /api/books
 //@access public
@@ -69,11 +68,3 @@ export const deleteBook = async (req,res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
-// module.exports = { 
-//     getBooks,
-//     postBook, 
-//     getBook, 
-//     updateBook, 
-//     deleteBook 
-// };
