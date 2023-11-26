@@ -12,7 +12,6 @@ export const getBooks = async (req,res) => {
     }
 };
 
-
 //@desc Get Book 
 //@route GET /api/books/:id
 //@access public
@@ -20,7 +19,7 @@ export const getBook = async (req,res) => {
     try{
         const { id } = req.params;
         const book = await bookModel.findById(id);
-        res.status(200).json(product);
+        res.status(200).json(book);
     }catch(err){
         res.status(500).json({ message: error.message });
     }
@@ -38,7 +37,6 @@ export const postBook = async (req,res) => {
     }
 };
 
-
 //@desc Update Book 
 //@route PUT /api/books
 //@access public
@@ -46,7 +44,7 @@ export const updateBook = async (req,res) => {
     try{
         const { id } = req.params;
         const book = await bookModel.findByIdAndUpdate(id, req.body);
-        if(!product){
+        if(!book){
             return res.status(404).json({ message: `cannot find any book with ID ${id}` });
         }
         const updatedBook = await bookModel.findById(id);
@@ -63,6 +61,9 @@ export const deleteBook = async (req,res) => {
     try{
         const { id } = req.params;
         const book = await bookModel.findByIdAndDelete(id);
+        if(!book){
+            return res.status(404).json({ message: `cannot find any book with ID ${id}` })
+        }
         res.status(200).json(book);
     }catch(err){
         res.status(500).json({ message: error.message });
