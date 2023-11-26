@@ -38,7 +38,7 @@ export const postBook = async (req,res) => {
 };
 
 //@desc Update Book 
-//@route PUT /api/books
+//@route PUT /api/books/:id
 //@access public
 export const updateBook = async (req,res) => {
     try{
@@ -55,7 +55,7 @@ export const updateBook = async (req,res) => {
 };
 
 //@desc Delete Book 
-//@route DELETE /api/books
+//@route DELETE /api/books/:id
 //@access public
 export const deleteBook = async (req,res) => {
     try{
