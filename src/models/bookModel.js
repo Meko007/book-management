@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import nanoid from 'nanoid';
+// import nanoid from 'nanoid';
 
-const _id = nanoid(10);
+// const _id = nanoid(10);
 const bookSchema = new mongoose.Schema(
     {
         title: {
@@ -26,4 +26,6 @@ const bookSchema = new mongoose.Schema(
     }
 );
 
-export const bookModel = mongoose.model('Book', bookSchema);
+const bookModel = mongoose.model('Book', bookSchema);
+
+export default bookModel ;
