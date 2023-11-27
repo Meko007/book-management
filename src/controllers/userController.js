@@ -61,5 +61,5 @@ export const loginUser = async (req, res) => {
 //@route GET /api/users
 //@access public
 export const currentUser = async (req, res) => {
-    
-}
+    res.json({ message: "Current user information" });
+};
