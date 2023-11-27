@@ -1,6 +1,4 @@
 import express from 'express';
-import bookModel from '../models/bookModel.js'; 
-// import { nanoid } from 'nanoid';
 import {
     getBooks,
     getBook,
