@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 //@desc Register user
-//@route GET /api/users
+//@route POST /api/users/register
 //@access public
 export const registerUser = async (req, res) => {
     try{
@@ -30,6 +30,9 @@ export const registerUser = async (req, res) => {
     }
 };
 
+//@desc Login user
+//@route POST /api/users/login
+//@access public
 export const loginUser = async (req, res) => {
     try{
         const { email, password } = req.body;
@@ -53,3 +56,10 @@ export const loginUser = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+//@desc Current user info
+//@route GET /api/users
+//@access public
+export const currentUser = async (req, res) => {
+    
+}
