@@ -44,8 +44,8 @@ export const loginUser = async (req, res) => {
                     email: user.email,
                     id: user.id
                 },
-            }, process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: "1m" }
+            }, process.env.JWT_SECRET,
+                { expiresIn: "15m" }
             );
             res.status(200).json({ accessToken });
         }else{
@@ -61,5 +61,9 @@ export const loginUser = async (req, res) => {
 //@route GET /api/users
 //@access public
 export const currentUser = async (req, res) => {
-    res.json({ message: "Current user information" });
+    try{
+        res.json(req.user);
+    }catch(err){
+        res.status(500).json({ message: err.message });
+    }
 };

@@ -6,6 +6,7 @@ import {
     updateBook,
     deleteBook
 } from '../controllers/bookController.js';
+import { validateToken } from '../middleware/validate.js';
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ const router = express.Router();
 //         response.status(500).send(err);
 //     }
 // });
-
+router.use(validateToken);
 router.route('/').get(getBooks).post(postBook);
 router.route('/:id').get(getBook).put(updateBook).delete(deleteBook);
 
