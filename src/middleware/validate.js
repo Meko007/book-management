@@ -19,3 +19,8 @@ export const validateToken = async (req, res, next) => {
         }
     }
 };
+
+export const isEmail = email => {
+    let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return regex.test(email);
+};
