@@ -8,7 +8,8 @@ const userSchema = mongoose.Schema(
             type: String,
             required: [true, "Please add a username"],
             unique: [true, "Username is taken"],
-            trim: true
+            trim: true,
+            lowercase: true
         },
         email: {
             type: String,
