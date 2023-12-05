@@ -5,9 +5,9 @@ import jwt from 'jsonwebtoken';
 //@desc Register user
 //@route POST /api/users/register
 //@access public
-export const registerUser = async (req, res) => {
+export const registerUser = async (req, role, res) => {
     try{
-        const { username, email, password, confirmPassword } = req.body;
+        const { username, email, password, confirmPassword } = req;
         const userExists = await User.findOne({ email });
         if(userExists){
             res.status(400);
@@ -17,12 +17,14 @@ export const registerUser = async (req, res) => {
             username,
             email,
             password,
-            confirmPassword
+            confirmPassword,
+            role
         });
         res.status(201).json({
             userId: user._id,
             username: user.username, 
-            email: user.email 
+            email: user.email,
+            role: user.role
         });
     }catch(err){
         res.status(500).json({ message: err.message });
@@ -32,21 +34,33 @@ export const registerUser = async (req, res) => {
 //@desc Login user
 //@route POST /api/users/login
 //@access public
-export const loginUser = async (req, res) => {
+export const loginUser = async (req, role, res) => {
     try{
-        const { email, password } = req.body;
+        const { email, password } = req;
         const user = await User.findOne({ email });
+        if(user.role !== role){
+            return res.status(403).json(
+                { message: `Make sure you're logging in from the right portal` }
+            );
+        }
         if(user && (await bcrypt.compare(password, user.password))){
             const accessToken = jwt.sign({
                 user: {
                     username: user.username,
                     email: user.email,
+                    role: user.role,
                     id: user.id
                 },
             }, process.env.JWT_SECRET,
                 { expiresIn: "15m" }
             );
-            res.status(200).json({ accessToken });
+            res.status(200).json({
+                username: user.username,
+                email: user.email,
+                role: user.role,
+                accessToken,    
+                message: `You're now logged in`
+            });
         }else{
             res.status(401);
             throw new Error('Email or password is invalid');

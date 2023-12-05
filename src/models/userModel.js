@@ -6,7 +6,9 @@ const userSchema = mongoose.Schema(
     {
         username: {
             type: String,
-            required: [true, "Please add a username"]
+            required: [true, "Please add a username"],
+            unique: [true, "Username is taken"],
+            trim: true
         },
         email: {
             type: String,
@@ -31,11 +33,13 @@ const userSchema = mongoose.Schema(
                 },
                 message: `Passwords don't match!`
             }
+        },
+        role: {
+            type: String,
+            enum: ["user", "admin", "seAdmin"]
         } 
     },
-    {
-        timestamps: true
-    }
+    { timestamps: true }
 );
 
 userSchema.pre('save', async function (next){
