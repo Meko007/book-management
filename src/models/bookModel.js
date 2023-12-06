@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const bookSchema = new mongoose.Schema(
     {
-        user_id: {
+        creator: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
             ref: 'User'
@@ -24,9 +24,7 @@ const bookSchema = new mongoose.Schema(
             required: true
         }
     },
-    {
-        timestamps: true
-    }
+    { timestamps: true }
 );
 
 const Book = mongoose.model('Book', bookSchema);
