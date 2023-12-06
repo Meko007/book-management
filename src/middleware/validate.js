@@ -28,8 +28,9 @@ export const isEmail = email => {
 export const restrict = role => {
     return (req, res, next) => {
         if(req.user.role !== role){
-            res.status(403);
-            throw new Error(`Access denied: User with the ${role} role can't access this route`);
+            return res.status(403).json({
+                message: `Access denied: User with the ${req.user.role} role can't access this route`
+            });
         }
         next();
     }
