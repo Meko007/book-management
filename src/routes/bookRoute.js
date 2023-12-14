@@ -10,8 +10,11 @@ import { validateToken, restrict } from '../middleware/validate.js';
 
 const router = express.Router();
 
-router.use(validateToken);
-router.route('/').get(getBooks).post(postBook);
-router.route('/:id').get(getBook).put(updateBook).delete(restrict('admin'), deleteBook);
+// router.use(validateToken);
+router.route('/').get(getBooks).post(validateToken, postBook);
+router.route('/:id')
+    .get(validateToken, getBook)
+    .put(validateToken, updateBook)
+    .delete(validateToken, restrict('admin'), deleteBook);
 
 export default router;
