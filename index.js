@@ -8,8 +8,6 @@ import userRoutes from './src/routes/userRoute.js';
 dotenv.config();
 const app = express();
 
-connectDB();
-
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -24,4 +22,5 @@ app.get('/', (req, res) => {
 
 app.listen(port, () => {
     console.log(`server is listening on port ${port}`);
+    connectDB();
 });
