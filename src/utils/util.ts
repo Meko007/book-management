@@ -9,3 +9,6 @@ export const random = (length: number): string => {
 
 export const isEmail = (email: string): boolean => 
 	(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(email);
+
+export const capitalizeName = (name: string): string => 
+	name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
