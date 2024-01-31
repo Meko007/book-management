@@ -3,18 +3,24 @@ import {
 	postBook,
 	getBooks,
 	updateBook,
-	deleteBook
+	deleteBook,
+	favouriteBook,
+	removeBookFromFavourites
 } from '../controllers/bookController';
-import { verifyToken } from '../middleware/auth';
+import { verifyToken, isAdmin, isSuspended } from '../middleware/auth';
 
 const router = express.Router();
 
 router.route('/books')
-	.post(postBook)
-	.get(getBooks);
+	.post(verifyToken, isAdmin, postBook)
+	.get(verifyToken, isSuspended, getBooks);
 
 router.route('/books/:id')
-	.put(updateBook)
-	.delete(verifyToken, deleteBook);
+	.put(verifyToken, isAdmin, updateBook)
+	.delete(verifyToken, isAdmin, deleteBook);
+
+router.route('/books/:bookId/favourite')
+	.post(verifyToken, isSuspended, favouriteBook)
+	.delete(verifyToken, isSuspended, removeBookFromFavourites);
 
 export default router;
