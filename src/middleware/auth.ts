@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { IUser } from '../models/userModel';
+import BlacklistModel from '../models/blacklistModel';
 import 'dotenv/config';
 
 const secret = process.env.JWT_SECRET as string;
@@ -15,7 +16,7 @@ export const createToken = (user: IUser) => {
 		email: user.email,
 		role: user.role, 
 		suspended: user.suspended,
-	}, secret, { expiresIn: '365d' });
+	}, secret, { expiresIn: '24h' });
 	return token;
 };
 
@@ -25,6 +26,12 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
     
 		if (!token) {
 			return res.status(401).json({ message: 'Unauthorized' });
+		}
+
+		const isBlacklisted = await BlacklistModel.exists({ token });
+
+		if (isBlacklisted) {
+			return res.status(401).json({ message: 'Token has been revoked, log in to get a new token' });
 		}
         
 		const decodedToken = jwt.verify(token, secret);
