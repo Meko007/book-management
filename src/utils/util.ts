@@ -29,7 +29,7 @@ export const sanitizeText2 = (text: string): boolean =>
 
 // NODEMAILER
 export const emailAddress = process.env.EMAIL as string;
-export const emailPassword = process.env.EMAIL_PASS as string;
+const emailPassword = process.env.EMAIL_PASS as string;
 
 export const transporter = nodemailer.createTransport({
 	service: 'Gmail',
