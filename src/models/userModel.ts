@@ -6,11 +6,14 @@ export interface IUser extends Document {
     firstName: string;
     lastName: string;
     email: string;
+	role: 'admin' | 'user';
     authentication: {
         password: string;
         jwtToken: string;
     };
 	favourites: string[];
+	suspended: boolean;
+	resetToken: string;
 }
 
 const userSchema = new Schema(
@@ -31,6 +34,12 @@ const userSchema = new Schema(
 			lowercase: true,
 			validate: [isEmail, 'Please enter a valid email address'],
 		},
+		role: {
+			type: String,
+			enum: ['admin', 'user'],
+			default: 'user',
+			required: true,
+		},
 		authentication: {
 			password: {
 				type: String,
@@ -46,6 +55,14 @@ const userSchema = new Schema(
 			type: [String],
 			default: [],
 		},
+		suspended: {
+			type:  Boolean,
+			default: false,
+		},
+		resetToken: {
+			type: String,
+			default: null,
+		}
 	},
 	{ timestamps: true }
 );
