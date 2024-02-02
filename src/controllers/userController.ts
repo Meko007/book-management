@@ -1,9 +1,12 @@
 import { Request, Response } from 'express';
 import UserModel from '../models/userModel';
+import BookModel from '../models/bookModel';
 import { createToken } from '../middleware/auth';
 import { validationResult, check } from 'express-validator';
 import BlacklistModel from '../models/blacklistModel';
 import bcrypt from 'bcrypt';
+import { customReq } from '../middleware/auth';
+import { JwtPayload } from 'jsonwebtoken';
 import { emailAddress, transporter, random } from '../utils/util';
 
 export const registerUser = async (req: Request, res: Response) => {
@@ -185,6 +188,31 @@ export const resetPassword = async (req: Request, res: Response) => {
 		res.status(200).json({ message: 'Password reset successful' });
 	} catch (error) {
     	res.status(500).json({ error: 'Internal Server Error' });
+		console.error(error);
+	}
+};
+
+export const viewFavourites = async (req: Request, res: Response) => {
+	try {
+		const id = ((req as customReq).token as JwtPayload).userId;
+		const user = await UserModel.findById(id);
+
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		const favourites = user.favourites;
+
+		const faveBooks = await Promise.all(
+			favourites.map(async (bookId) => {
+				const book = await BookModel.findById(bookId, '-_id -favouritedBy -createdAt -updatedAt -__v');
+				return book;
+			})
+		);
+
+		res.status(200).json(faveBooks);
+	} catch (error) {
+		res.status(500).json({ error: 'Internal Server Error' });
 		console.error(error);
 	}
 };

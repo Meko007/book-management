@@ -47,7 +47,12 @@ export const postBook = async (req: Request, res: Response) => {
 
 export const getBooks = async (req: Request, res: Response) => {
 	try {
-		const books = await BookModel.find(req.query, '-_id -favouritedBy -createdAt -updatedAt -__v');
+		const queryObj = { ...req.query };
+
+		let queryStr = JSON.stringify(queryObj);
+		queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
+
+		const books = await BookModel.find(JSON.parse(queryStr), '-favouritedBy -createdAt -updatedAt -__v');
 		res.status(200).json(books);
 	} catch (error) {
 		res.status(500).json({ error: 'Internal Server Error' });
@@ -162,6 +167,27 @@ export const removeBookFromFavourites = async (req: Request, res: Response) => {
 		await UserModel.findByIdAndUpdate(user._id, { $pull: { 'favourites': bookId } });
 
 		res.status(200).json({ message: 'removed from your favourites' });
+	} catch (error) {
+		res.status(500).json({ error: 'Internal Server Error' });
+		console.error(error);
+	}
+};
+
+export const addReview = async (req: Request, res: Response) => {
+	try {
+		const { bookId } = req.params;
+		const { review } = req.body;
+		const userId = ((req as customReq).token as JwtPayload).userId;
+
+		const book = await BookModel.findById(bookId);
+
+		if (!book) {
+			return res.status(404).json({ message: 'Book not found' });
+		}
+
+		await BookModel.findByIdAndUpdate(book._id, { $set: { [`reviews.${userId}`]: review } });
+		console.log(review);
+		res.status(200).json({ message: 'Review added successfully' });
 	} catch (error) {
 		res.status(500).json({ error: 'Internal Server Error' });
 		console.error(error);
