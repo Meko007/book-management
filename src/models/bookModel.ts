@@ -9,6 +9,7 @@ export interface IBook extends Document {
     picURL: string;
 	favouritesCount: number;
 	favouritedBy: string[];
+	reviews: { [userId: string]: string };
 }
 
 const bookSchema = new Schema(
@@ -50,6 +51,11 @@ const bookSchema = new Schema(
 		favouritedBy:{
 			type: [Schema.Types.ObjectId],
 			default: [],
+		},
+		reviews: {
+			type: Object,
+			of: String,
+			default: {},
 		},
 	},
 	{ timestamps: true }
