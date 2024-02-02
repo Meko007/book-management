@@ -8,8 +8,9 @@ import {
 	logoutUser,
 	forgotPassword,
 	resetPassword,
+	viewFavourites,
 } from '../controllers/userController';
-import { verifyToken, isAdmin } from '../middleware/auth';
+import { verifyToken, isAdmin, isSuspended } from '../middleware/auth';
 
 const router = express.Router();
 
@@ -19,6 +20,7 @@ router.post('/users/logout', logoutUser);
 router.get('/users', verifyToken, isAdmin, getUsers);
 router.post('/users/forgot-password', forgotPassword);
 router.post('/users/reset-password', resetPassword);
+router.get('/users/view-favourites', verifyToken, isSuspended, viewFavourites);
 router.route('/users/:id')
 	.put(verifyToken, isAdmin, updateUser)
 	.delete(verifyToken, isAdmin, deleteUser);
