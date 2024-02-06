@@ -186,8 +186,26 @@ export const addReview = async (req: Request, res: Response) => {
 		}
 
 		await BookModel.findByIdAndUpdate(book._id, { $set: { [`reviews.${userId}`]: review } });
-		console.log(review);
 		res.status(200).json({ message: 'Review added successfully' });
+	} catch (error) {
+		res.status(500).json({ error: 'Internal Server Error' });
+		console.error(error);
+	}
+};
+
+export const deleteReview = async (req: Request, res: Response) => {
+	try {
+		const { bookId } = req.params;
+		const userId = ((req as customReq).token as JwtPayload).userId;
+
+		const book = await BookModel.findById(bookId);
+
+		if (!book) {
+			return res.status(404).json({ message: 'Book not found' });
+		}
+
+		await BookModel.findByIdAndUpdate(book._id, { $unset: { [`reviews.${userId}`]: 1 } });
+		res.status(200).json({ message: 'Review deleted successfully' });
 	} catch (error) {
 		res.status(500).json({ error: 'Internal Server Error' });
 		console.error(error);
