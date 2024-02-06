@@ -7,6 +7,7 @@ import {
 	favouriteBook,
 	removeBookFromFavourites,
 	addReview,
+	deleteReview,
 } from '../controllers/bookController';
 import { verifyToken, isAdmin, isSuspended } from '../middleware/auth';
 
@@ -25,6 +26,7 @@ router.route('/books/:bookId/favourite')
 	.delete(verifyToken, isSuspended, removeBookFromFavourites);
 
 router.route('/books/:bookId/review')
-	.post(verifyToken, isSuspended, addReview);
+	.post(verifyToken, isSuspended, addReview)
+	.delete(verifyToken, isSuspended, deleteReview);
 
 export default router;
