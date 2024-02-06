@@ -75,8 +75,3 @@ The API goes is accessed through:
 | GET | /users/viewFavourites | Required | No | Yes | User views their favourite book |
 | PUT | /users/:id | Required | Yes | - | Updates a user's suspension and/or admin status |
 | DELETE | /users/:id | Required | Yes | - | Deletes a user |
-
-
-
-
-
