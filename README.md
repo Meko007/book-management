@@ -8,6 +8,7 @@ To run this API, you will need the following:
 
 - Node.js and npm installed
 - MongoDB
+- Personal JWT secret from [jwt.io](https://jwt.io/)
 
 To test it:
 - Postman, Insomnia etc (any API testing software you know)
@@ -72,6 +73,6 @@ The API goes is accessed through:
 | GET | /users | Required | Yes | - | Get all users |
 | POST | /users/forgot-password | - | No | Yes | User forgets password |
 | POST | /users/reset-password | - | No | Yes | User requests to change password |
-| GET | /users/viewFavourites | Required | No | Yes | User views their favourite book |
+| GET | /users/viewFavourites | Required | No | Yes | User views their favourite books |
 | PUT | /users/:id | Required | Yes | - | Updates a user's suspension and/or admin status |
 | DELETE | /users/:id | Required | Yes | - | Deletes a user |
