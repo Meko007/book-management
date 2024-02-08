@@ -8,7 +8,7 @@ To run this API, you will need the following:
 
 - Node.js and npm installed
 - MongoDB
-- Personal JWT secret from [jwt.io](https://jwt.io/)
+- Personal JWT secret (could be anything you want or you can run this `crypto.randomUUID();`)
 
 To test it:
 - Postman, Insomnia etc (any API testing software you know)
