@@ -52,8 +52,8 @@ The API goes is accessed through:
 
 ### Book endpoints
 
-| Operation | Route | Authentication | Admin Privileges | Unique user | Description |
-|:----------|:------|:---------------|:-----------------|:------------|:------------|
+| Operation | Route | Auth | Admin Privileges | Unique user | Description |
+|:----------|:------|:-----|:-----------------|:------------|:------------|
 | POST | /books | Required | Yes | No | Creates a new book |
 | GET | /books | Optional | No | No | Returns all books if no query parameters are given |
 | PUT | /books/:id | Required | Yes | No | Updates book by its id |
@@ -65,8 +65,8 @@ The API goes is accessed through:
 
 ### User endpoints
 
-| Operation | Route | Authentication | Admin Privileges | Unique user | Description |
-|:----------|:------|:---------------|:-----------------|:------------|:------------|
+| Operation | Route | Auth | Admin Privileges | Unique user | Description |
+|:----------|:------|:-----|:-----------------|:------------|:------------|
 | POST | /users/register | - | No | - | Registers a new user |
 | POST | /users/login | - | No | Yes | Logs in user |
 | POST | /users/logout | Required | No | Yes | Logs out user |
