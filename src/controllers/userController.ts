@@ -11,6 +11,10 @@ import { emailAddress, transporter, random } from '../utils/util';
 
 export const registerUser = async (req: Request, res: Response) => {
 	try {
+		
+		const { firstName, lastName, email, password } = req.body;
+		const userExists = await UserModel.findOne({ email });
+		
 		await Promise.all([
 			check('firstName').isString().isAlpha().trim().escape().notEmpty().run(req),
 			check('lastName').isString().isAlpha().trim().escape().notEmpty().run(req),
@@ -22,10 +26,7 @@ export const registerUser = async (req: Request, res: Response) => {
 		if (!errors.isEmpty()) {
 			return res.status(400).json({ errors: errors.array() });
 		}
-
-		const { firstName, lastName, email, password } = req.body;
-		const userExists = await UserModel.findOne({ email });
-
+		
 		if (userExists) {
 			return res.status(409).json({ message: `User with email ${email} already exists` });
 		}
