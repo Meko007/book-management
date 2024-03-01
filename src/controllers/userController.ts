@@ -95,7 +95,7 @@ export const updateUser = async (req: Request, res: Response) => {
 		const user = await UserModel.findById(id);
 
 		if (!user) {
-			return res.status(404).json({ message: `book with the id ${id} wasn't found` });
+			return res.status(404).json({ message: `User not found` });
 		}
 
 		const updatedUser = await UserModel.findByIdAndUpdate(
@@ -116,7 +116,7 @@ export const deleteUser = async (req: Request, res: Response) => {
 		const user = await UserModel.findByIdAndDelete(id);
 
 		if (!user) {
-			return res.status(404).json({ message: `user with id ${id} wasn't found` });
+			return res.status(404).json({ message: `User not found` });
 		}
 		res.status(200).json({
 			message: 'deleted',
